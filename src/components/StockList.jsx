@@ -1,15 +1,12 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { BsFillCaretDownFill } from 'react-icons/bs';
 import { BsFillCaretUpFill } from 'react-icons/bs';
 import finnHub from '../apis/finnHub';
+import { WatchListContext } from '../context/watchListContext';
 
 export const StockList = () => {
   const [stock, setStock] = useState([]);
-  const [watchList, setWatchList] = useState([
-    'GOOGL',
-    'MSFT',
-    'AMZN',
-  ]);
+  const { watchList } = useContext(WatchListContext);
 
   useEffect(() => {
     let isMounted = true;
@@ -37,11 +34,10 @@ export const StockList = () => {
         }
       } catch (err) {}
     };
-
     fetchData();
 
     return () => (isMounted = false);
-  }, []);
+  }, [watchList]);
 
   const changeColor = (change) => {
     return change > 0 ? 'success' : 'danger';
